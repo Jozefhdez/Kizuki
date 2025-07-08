@@ -1,0 +1,339 @@
+/* Login.css - Estilos modernos para el login */
+
+/* Variables CSS */
+:root {
+  --primary-black: #000000;
+  --primary-white: #ffffff;
+  --gray-100: #f8f9fa;
+  --gray-200: #e9ecef;
+  --gray-300: #dee2e6;
+  --gray-400: #6c757d;
+  --gray-500: #495057;
+  --gray-600: #343a40;
+  --success-green: #10b981;
+  --error-red: #ef4444;
+  --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-heavy: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Reset para el login */
+* {
+  box-sizing: border-box;
+}
+
+/* Contenedor principal */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 1rem;
+}
+
+/* Tarjeta del login */
+.login-card {
+  background: var(--primary-white);
+  border-radius: 20px;
+  box-shadow: var(--shadow-heavy);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid var(--gray-200);
+  backdrop-filter: blur(10px);
+}
+
+/* Header del login */
+.login-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}
+
+.login-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-black);
+  text-align: center;
+  flex: 1;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+/* Estilo para el logo y el título */
+.logo-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+}
+
+/* Botón de regreso */
+.btn-back {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--gray-100);
+  border: 1px solid var(--gray-300);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.btn-back::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-left: 2px solid var(--gray-500);
+  border-bottom: 2px solid var(--gray-500);
+  transform: rotate(45deg);
+  margin-right: 2px;
+}
+
+.btn-back:hover {
+  background: var(--gray-200);
+  border-color: var(--gray-400);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-light);
+}
+
+/* Estilo para el nuevo botón de regreso */
+.btn-back-modern {
+  background: none;
+  border: none;
+  color: var(--gray-600);
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.btn-back-modern:hover {
+  color: var(--primary-black);
+}
+
+/* Grupos de formulario */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  font-size: 0.875rem;
+}
+
+/* Inputs */
+input[type="email"],
+input[type="password"] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--gray-200);
+  border-radius: 12px;
+  font-size: 1rem;
+  background: var(--primary-white);
+  color: var(--primary-black);
+  transition: all 0.2s ease;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: var(--primary-black);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+input[type="email"]::placeholder,
+input[type="password"]::placeholder {
+  color: var(--gray-400);
+}
+
+/* Botones */
+.btn {
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 2px solid transparent;
+}
+
+.btn-primary {
+  background: var(--primary-black);
+  color: var(--primary-white);
+  border-color: var(--primary-black);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--gray-600);
+  border-color: var(--gray-600);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-medium);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--primary-black);
+  border-color: var(--primary-black);
+}
+
+.btn-secondary:hover {
+  background: var(--primary-black);
+  color: var(--primary-white);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-light);
+}
+
+.btn-full {
+  width: 100%;
+}
+
+/* Espaciado */
+.login-spacing {
+  margin-top: 1.5rem;
+}
+
+/* Spinner de carga */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Mensajes de error y éxito */
+.error-message,
+.success-message {
+  padding: 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  animation: slideIn 0.3s ease;
+}
+
+.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--error-red);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.success-message {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success-green);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 2rem;
+    margin: 1rem;
+  }
+  
+  .login-title {
+      margin: 0 auto;
+      padding-left: 3rem;
+    padding-right: 3.5rem;
+    text-align: center;
+    flex: 1;
+  }
+  
+  .btn-back {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* Efectos de glassmorphism */
+.login-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Animaciones suaves */
+.login-card {
+  animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover states mejorados */
+.btn:active {
+  transform: translateY(0);
+}
+
+input[type="email"]:hover,
+input[type="password"]:hover {
+  border-color: var(--gray-300);
+}
+
+/* Estados focus mejorados */
+.btn:focus-visible {
+  outline: 2px solid var(--primary-black);
+  outline-offset: 2px;
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
