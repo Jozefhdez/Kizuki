@@ -79,7 +79,7 @@ function Login() {
       <div className="login-card">
         <div className="login-header">
             <div className="logo-title">
-            <img src="/src/assets/kizuki.svg" alt="Kizuki Logo" className="logo" />
+            <img src="/kizuki.svg" alt="Kizuki Logo" className="logo" />
             <h1 className="login-title">Kizuki</h1>
           </div>
         </div>

@@ -9,7 +9,7 @@ interface PDFRendererProps {
 }
 
 const PDFRenderer = React.forwardRef<HTMLDivElement, PDFRendererProps>(
-  ({ content, title, folderName }, ref) => {
+  ({ content }, ref) => {
     return (
       <div 
         ref={ref}
@@ -23,29 +23,6 @@ const PDFRenderer = React.forwardRef<HTMLDivElement, PDFRendererProps>(
           lineHeight: '1.6'
         }}
       >
-        {/* Header */}
-        <div style={{ 
-          marginBottom: '40px',
-          borderBottom: '2px solid #eee',
-          paddingBottom: '20px'
-        }}>
-          <div style={{ 
-            fontSize: '14px',
-            color: '#666',
-            marginBottom: '10px'
-          }}>
-            {folderName}
-          </div>
-          <h1 style={{ 
-            fontSize: '32px',
-            fontWeight: '700',
-            margin: '0',
-            color: '#111'
-          }}>
-            {title}
-          </h1>
-        </div>
-        
         {/* Content */}
         <div className="markdown-content">
           <ReactMarkdown
@@ -222,18 +199,6 @@ const PDFRenderer = React.forwardRef<HTMLDivElement, PDFRendererProps>(
           >
             {content}
           </ReactMarkdown>
-        </div>
-        
-        {/* Footer */}
-        <div style={{ 
-          marginTop: '60px',
-          paddingTop: '20px',
-          borderTop: '1px solid #eee',
-          fontSize: '12px',
-          color: '#666',
-          textAlign: 'center'
-        }}>
-          Generated from Kizuki - {new Date().toLocaleDateString()}
         </div>
       </div>
     );
