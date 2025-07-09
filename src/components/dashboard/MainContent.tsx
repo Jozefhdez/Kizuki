@@ -268,6 +268,47 @@ function MainContent({ currentPageId }: MainContentProps) {
         <div className="editor-container">
           <div className="editor-content">
             <div className="content-block">
+              {!currentPageId ? (
+                <div className="welcome-content">
+                  <div className="welcome-hero">
+                    <div className="welcome-icon">🚀</div>
+                    <h2>Welcome to Kizuki!</h2>
+                    <p>Your personal space to create, organize and share your ideas.</p>
+                  </div>
+                  
+                  <div className="welcome-features">
+                    <div className="feature-card">
+                      <div className="feature-icon">📁</div>
+                      <h3>Organize by folders</h3>
+                      <p>Create folders to organize your pages and keep everything tidy.</p>
+                    </div>
+                    
+                    <div className="feature-card">
+                      <div className="feature-icon">✍️</div>
+                      <h3>Markdown Editor</h3>
+                      <p>Write with Markdown syntax and see a real-time preview.</p>
+                    </div>
+                    
+                    <div className="feature-card">
+                      <div className="feature-icon">📄</div>
+                      <h3>Export to PDF</h3>
+                      <p>Convert your pages to PDF with a single click to share or print.</p>
+                    </div>
+                    
+                    <div className="feature-card">
+                      <div className="feature-icon">💾</div>
+                      <h3>Auto-save</h3>
+                      <p>Your changes are automatically saved every 30 seconds.</p>
+                    </div>
+                  </div>
+                  
+                  <div className="welcome-actions">
+                    <div className="action-tip">
+                      <strong>To get started:</strong> Create a new folder in the sidebar and then add pages inside it.
+                    </div>
+                  </div>
+                </div>
+              ) : (
                 <div className="custom-md-editor">
                   <MDEditor
                     value={value}
@@ -281,6 +322,7 @@ function MainContent({ currentPageId }: MainContentProps) {
                     }}
                   />
                 </div>
+              )}
             </div>
           </div>
         </div>

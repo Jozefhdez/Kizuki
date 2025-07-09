@@ -239,31 +239,6 @@ function Sidebar({ onPageSelect, currentPageId }: SidebarProps) {
             </div>
           </div>
         </nav>
-
-        <div className="sidebar-footer">
-          <button className="settings-btn">
-            <svg width="16" height="16" viewBox="0 0 16 16">
-              <path
-                d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                fill="none"
-              />
-            </svg>
-            <span>Settings</span>
-          </button>
-          <button className="trash-btn">
-            <svg width="16" height="16" viewBox="0 0 16 16">
-              <path
-                d="M3 4h10l-1 9H4L3 4zM5 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1M7 7v4M9 7v4"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                fill="none"
-              />
-            </svg>
-            <span>Trash</span>
-          </button>
-        </div>
       </div>
     </div>
   );
