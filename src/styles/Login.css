@@ -1,25 +1,37 @@
-/* Login.css - Estilos modernos para el login */
+/* Login.css - Estilo inspirado en Notion */
 
-/* Variables CSS */
+/* Variables CSS inspiradas en Notion */
 :root {
-  --primary-black: #000000;
-  --primary-white: #ffffff;
-  --gray-100: #f8f9fa;
-  --gray-200: #e9ecef;
-  --gray-300: #dee2e6;
-  --gray-400: #6c757d;
-  --gray-500: #495057;
-  --gray-600: #343a40;
-  --success-green: #10b981;
-  --error-red: #ef4444;
-  --shadow-light: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-medium: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-heavy: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --notion-text: #37352f;
+  --notion-text-light: #6b6966;
+  --notion-bg: #ffffff;
+  --notion-bg-light: #f7f6f3;
+  --notion-border: #e9e9e7;
+  --notion-border-hover: #d9d9d7;
+  --notion-blue: #2383e2;
+  --notion-blue-light: #e8f3ff;
+  --notion-red: #eb5757;
+  --notion-red-light: #fef2f2;
+  --notion-green: #0f7b0f;
+  --notion-green-light: #f0f9f0;
+  --notion-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --notion-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --notion-radius: 6px;
+  --notion-radius-large: 8px;
+  --gray-900: #37352f;
 }
 
-/* Reset para el login */
+/* Reset básico */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 }
 
 /* Contenedor principal */
@@ -28,183 +40,148 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  padding: 1rem;
+  background: var(--notion-bg-light);
+  padding: 2rem;
+  font-family: 'JetBrains Mono', 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 }
 
 /* Tarjeta del login */
 .login-card {
-  background: var(--primary-white);
-  border-radius: 20px;
-  box-shadow: var(--shadow-heavy);
-  padding: 2.5rem;
+  background: var(--notion-bg);
+  border-radius: var(--notion-radius-large);
+  box-shadow: var(--notion-shadow);
+  padding: 3rem;
   width: 100%;
   max-width: 400px;
-  border: 1px solid var(--gray-200);
-  backdrop-filter: blur(10px);
+  border: 1px solid var(--notion-border);
+  transition: box-shadow 0.2s ease;
+}
+
+.login-card:hover {
+  box-shadow: var(--notion-shadow-hover);
 }
 
 /* Header del login */
 .login-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-  margin-bottom: 2rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
 }
 
 .login-title {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--primary-black);
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--notion-text);
   text-align: center;
-  flex: 1;
   margin: 0;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 /* Estilo para el logo y el título */
 .logo-title {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .logo {
-  width: 40px;
-  height: 40px;
-}
-
-/* Botón de regreso */
-.btn-back {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--gray-100);
-  border: 1px solid var(--gray-300);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  position: relative;
-}
-
-.btn-back::before {
-  content: '';
-  width: 12px;
-  height: 12px;
-  border-left: 2px solid var(--gray-500);
-  border-bottom: 2px solid var(--gray-500);
-  transform: rotate(45deg);
-  margin-right: 2px;
-}
-
-.btn-back:hover {
-  background: var(--gray-200);
-  border-color: var(--gray-400);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-light);
-}
-
-/* Estilo para el nuevo botón de regreso */
-.btn-back-modern {
-  background: none;
-  border: none;
-  color: var(--gray-600);
-  font-size: 1.25rem;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.btn-back-modern:hover {
-  color: var(--primary-black);
+  width: 32px;
+  height: 32px;
+  border-radius: var(--notion-radius);
 }
 
 /* Grupos de formulario */
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .form-label {
   display: block;
   margin-bottom: 0.5rem;
   font-weight: 500;
-  color: var(--gray-600);
+  color: var(--notion-text);
   font-size: 0.875rem;
+  line-height: 1.4;
 }
 
 /* Inputs */
 input[type="email"],
 input[type="password"] {
   width: 100%;
-  padding: 0.75rem 1rem;
-  border: 2px solid var(--gray-200);
-  border-radius: 12px;
-  font-size: 1rem;
-  background: var(--primary-white);
-  color: var(--primary-black);
-  transition: all 0.2s ease;
+  padding: 0.75rem 0.875rem;
+  border: 1px solid var(--notion-border);
+  border-radius: var(--notion-radius);
+  font-size: 0.875rem;
+  background: var(--notion-bg);
+  color: var(--notion-text);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+  line-height: 1.4;
+}
+
+input[type="email"]:hover,
+input[type="password"]:hover {
+  border-color: var(--notion-border-hover);
 }
 
 input[type="email"]:focus,
 input[type="password"]:focus {
   outline: none;
-  border-color: var(--primary-black);
-  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  border-color: var(--notion-blue);
+  box-shadow: 0 0 0 2px var(--notion-blue-light);
 }
 
 input[type="email"]::placeholder,
 input[type="password"]::placeholder {
-  color: var(--gray-400);
+  color: var(--notion-text-light);
 }
 
 /* Botones */
 .btn {
   width: 100%;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  border-radius: var(--notion-radius);
   font-weight: 500;
-  font-size: 1rem;
+  font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
+  font-family: inherit;
+  line-height: 1.4;
 }
 
 .btn-primary {
-  background: var(--primary-black);
-  color: var(--primary-white);
-  border-color: var(--primary-black);
+  background: var(--notion-text);
+  color: var(--notion-bg);
+  border-color: var(--notion-text);
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--gray-600);
-  border-color: var(--gray-600);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-medium);
+  background: var(--notion-text-light);
+  border-color: var(--notion-text-light);
+  box-shadow: var(--notion-shadow);
 }
 
 .btn-primary:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
-  transform: none;
 }
 
 .btn-secondary {
-  background: transparent;
-  color: var(--primary-black);
-  border-color: var(--primary-black);
+  background: var(--notion-bg);
+  color: var(--notion-text);
+  border-color: var(--notion-border);
 }
-
 .btn-secondary:hover {
-  background: var(--primary-black);
-  color: var(--primary-white);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-light);
+  background: var(--notion-bg-light);
+  border-color: var(--notion-border-hover);
+  box-shadow: var(--notion-shadow);
 }
 
 .btn-full {
@@ -218,8 +195,8 @@ input[type="password"]::placeholder {
 
 /* Spinner de carga */
 .spinner {
-  width: 20px;
-  height: 20px;
+  width: 16px;
+  height: 16px;
   border: 2px solid transparent;
   border-top: 2px solid currentColor;
   border-radius: 50%;
@@ -234,34 +211,31 @@ input[type="password"]::placeholder {
 /* Mensajes de error y éxito */
 .error-message,
 .success-message {
-  padding: 1rem;
-  border-radius: 12px;
-  margin-bottom: 1.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--notion-radius);
+  margin-bottom: 1.25rem;
   font-size: 0.875rem;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  font-weight: 400;
+  line-height: 1.4;
   animation: slideIn 0.3s ease;
 }
 
 .error-message {
-  background: rgba(239, 68, 68, 0.1);
-  color: var(--error-red);
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: var(--notion-red-light);
+  color: var(--notion-red);
+  border: 1px solid var(--notion-red);
 }
 
 .success-message {
-  background: rgba(16, 185, 129, 0.1);
-  color: var(--success-green);
-  border: 1px solid rgba(16, 185, 129, 0.2);
+  background: var(--notion-green-light);
+  color: var(--notion-green);
+  border: 1px solid var(--notion-green);
 }
-
 
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateY(-10px);
+    transform: translateY(-8px);
   }
   to {
     opacity: 1;
@@ -271,41 +245,33 @@ input[type="password"]::placeholder {
 
 /* Responsive */
 @media (max-width: 480px) {
+  .login-container {
+    padding: 1rem;
+  }
+  
   .login-card {
     padding: 2rem;
-    margin: 1rem;
   }
   
   .login-title {
-      margin: 0 auto;
-      padding-left: 3rem;
-    padding-right: 3.5rem;
-    text-align: center;
-    flex: 1;
+    font-size: 1.5rem;
   }
   
-  .btn-back {
-    width: 36px;
-    height: 36px;
+  .logo {
+    width: 28px;
+    height: 28px;
   }
-}
-
-/* Efectos de glassmorphism */
-.login-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Animaciones suaves */
 .login-card {
-  animation: fadeInUp 0.5s ease;
+  animation: fadeInUp 0.4s ease;
 }
 
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -313,19 +279,9 @@ input[type="password"]::placeholder {
   }
 }
 
-/* Hover states mejorados */
-.btn:active {
-  transform: translateY(0);
-}
-
-input[type="email"]:hover,
-input[type="password"]:hover {
-  border-color: var(--gray-300);
-}
-
 /* Estados focus mejorados */
 .btn:focus-visible {
-  outline: 2px solid var(--primary-black);
+  outline: 2px solid var(--notion-blue);
   outline-offset: 2px;
 }
 
