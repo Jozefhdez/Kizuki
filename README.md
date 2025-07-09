@@ -4,6 +4,10 @@
 
 A beautiful, minimalist note-taking app inspired by Notion, built with React, TypeScript, and Supabase.
 
+## 🌐 Live Demo
+
+**[Try Kizuki →](https://kizuki-pied.vercel.app/)**
+
 ## ✨ Features
 
 - 📁 **Organize by folders** - Keep your thoughts structured
@@ -21,7 +25,22 @@ A beautiful, minimalist note-taking app inspired by Notion, built with React, Ty
 - **Editor**: @uiw/react-md-editor with rehype plugins
 - **PDF Export**: Native browser printing with ReactMarkdown
 
-## 🚀 Getting Started
+## 🎯 How to Use
+
+1. **Visit** [kizuki-pied.vercel.app](https://kizuki-pied.vercel.app/)
+2. **Create an account** or sign in
+3. **Create folders** to organize your content
+4. **Add pages** inside folders
+5. **Write in Markdown** with live preview
+6. **Export to PDF** when you're ready to share
+
+## 🎨 Design Philosophy
+
+Kizuki embraces simplicity and elegance. The interface is designed to fade into the background, letting your words take center stage. Clean typography, subtle animations, and thoughtful spacing create a delightful writing experience.
+
+## 🚀 For Developers
+
+### Getting Started
 
 1. **Clone the repository**
    ```bash
@@ -48,36 +67,19 @@ A beautiful, minimalist note-taking app inspired by Notion, built with React, Ty
 5. **Open your browser**
    Navigate to `http://localhost:5173`
 
-## 📦 Scripts
+### Scripts
 
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
 
-## 🎯 Usage
-
-1. **Create an account** or sign in
-2. **Create folders** to organize your content
-3. **Add pages** inside folders
-4. **Write in Markdown** with live preview
-5. **Export to PDF** when you're ready to share
-
-## 🎨 Design Philosophy
-
-Kizuki embraces simplicity and elegance. The interface is designed to fade into the background, letting your words take center stage. Clean typography, subtle animations, and thoughtful spacing create a delightful writing experience.
-
 ## 🤝 Contributing
 
 Contributions are welcome! Feel free to open issues or submit pull requests.
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
 ---
 
 <div align="center">
-  <p>Made with ❤️ by <strong>Kizuki Team</strong></p>
+  <p>Made by <strong>Jozef Hernández</strong></p>
   <p><em>Happy writing! 📝</em></p>
 </div>
