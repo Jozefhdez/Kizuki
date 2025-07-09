@@ -99,4 +99,65 @@ export class FileService {
       isOpen: false,
     };
   }
+
+  static async createPage(
+    userId: string,
+    title: string,
+    slug: string,
+    folderId: string
+  ): Promise<any> {
+    const { data, error } = await supabase
+      .from("pages")
+      .insert([
+        {
+          user_id: userId,
+          title: title,
+          slug: slug || title.toLowerCase().replace(/\s+/g, '-'),
+          folder_id: folderId,
+        },
+      ])
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Error creating page:", error);
+      throw new Error("Error creating page");
+    }
+
+    return {
+      id: data.id,
+      title: data.title,
+      slug: data.slug,
+      filePath: data.file_path,
+      createdAt: new Date(data.created_at),
+      updatedAt: new Date(data.updated_at),
+    };
+  }
+
+    static async getPageByUserAndFolder(userId: string, folderId?: string): Promise<any[]> {
+    let query = supabase
+      .from("pages")
+      .select("*")
+      .eq("user_id", userId);
+
+    if (folderId) {
+      query = query.eq("folder_id", folderId);
+    }
+
+    const { data, error } = await query.order("created_at", { ascending: true });
+
+    if (error) {
+      console.error("Error fetching pages:", error);
+      throw new Error("Error getting pages");
+    }
+
+    return (data || []).map((page: any) => ({
+      id: page.id,
+      title: page.title,
+      slug: page.slug,
+      filePath: page.file_path,
+      createdAt: new Date(page.created_at),
+      updatedAt: new Date(page.updated_at),
+    }));
+  }
 }

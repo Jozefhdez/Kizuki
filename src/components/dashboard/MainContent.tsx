@@ -13,18 +13,8 @@ function MainContent({ currentPageId }: MainContentProps) {
         content: "Welcome to Kizuki"
       };
     }
-    
-    // Simulación de contenido dinámico
-    const pages: Record<string, any> = {
-      "page-1": { title: "Daily Notes", icon: "📄", content: "Your daily thoughts and notes" },
-      "page-2": { title: "Ideas", icon: "💡", content: "Brilliant ideas and inspirations" },
-      "page-3": { title: "Goals", icon: "🎯", content: "Your goals and aspirations" },
-      "page-4": { title: "Meeting Notes", icon: "📝", content: "Important meeting notes" },
-      "page-5": { title: "Project Plans", icon: "📋", content: "Project planning and roadmaps" },
-      "page-6": { title: "Task List", icon: "✅", content: "Tasks and todo items" }
-    };
 
-    return pages[pageId] || { title: "Page Not Found", icon: "❓", content: "Page not found" };
+    return { title: "Page Not Found", icon: "❓", content: "Page not found" };
   };
 
   const pageContent = getPageContent(currentPageId);
@@ -78,17 +68,7 @@ function MainContent({ currentPageId }: MainContentProps) {
                     <li>Share your work with others</li>
                   </ul>
                 </div>
-
-                <div className="content-placeholder">
-                  <div className="placeholder-text">Click here to start writing...</div>
-                </div>
               </>
-            )}
-
-            {currentPageId && (
-              <div className="content-placeholder">
-                <div className="placeholder-text">Start writing your {pageContent.title.toLowerCase()}...</div>
-              </div>
             )}
           </div>
         </div>

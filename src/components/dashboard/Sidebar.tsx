@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../../services/supabaseClient";
 import FolderItem from "./FolderItem";
 import { useEffect, useState } from "react";
-import type { User, Folder } from "../../types/dashboard";
+import type { User, Folder, Page } from "../../types/dashboard";
 import { FileService } from "../../services/fileService";
 
 interface SidebarProps {
@@ -90,6 +90,14 @@ function Sidebar({ onPageSelect, currentPageId }: SidebarProps) {
     }
   };
 
+  const handlePagesUpdate = (folderId: string, pages: Page[]) => {
+    setFolders((prevFolders) =>
+      prevFolders.map((folder) =>
+        folder.id === folderId ? { ...folder, pages } : folder
+      )
+    );
+  };
+
   if (error) {
     return (
       <div className="dashboard-container">
@@ -130,7 +138,7 @@ function Sidebar({ onPageSelect, currentPageId }: SidebarProps) {
                   type="text"
                   id="folderName"
                   name="folderName"
-                  placeholder="Ingresa el nombre del folder"
+                  placeholder="Insert folder name"
                   required
                   autoFocus
                 />
@@ -168,12 +176,19 @@ function Sidebar({ onPageSelect, currentPageId }: SidebarProps) {
           <span className="logo-text">Kizuki</span>
         </div>
         <button className="logout-btn" onClick={handleLogout}>
-          <svg width="16" height="16" viewBox="0 0 16 16">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={2}
+            stroke="currentColor"
+            width="18.5" 
+            height="18.5"
+          >
             <path
-              d="M10 3V1.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V13m0-10l4 4-4 4m4-4H6"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              fill="none"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
             />
           </svg>
         </button>
@@ -195,7 +210,10 @@ function Sidebar({ onPageSelect, currentPageId }: SidebarProps) {
           <div className="nav-section">
             <div className="nav-header">
               <span>Folders</span>
-              <button className="add-btn" onClick={() => setCreatingFolder(true)}>
+              <button
+                className="add-btn"
+                onClick={() => setCreatingFolder(true)}
+              >
                 <svg width="12" height="12" viewBox="0 0 12 12">
                   <path
                     d="M6 1v10M1 6h10"
@@ -214,6 +232,8 @@ function Sidebar({ onPageSelect, currentPageId }: SidebarProps) {
                   pages={folder.pages}
                   onPageClick={onPageSelect}
                   currentPageId={currentPageId}
+                  user={user}
+                  onPagesUpdate={handlePagesUpdate}
                 />
               ))}
             </div>

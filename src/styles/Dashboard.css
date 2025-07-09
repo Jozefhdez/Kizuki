@@ -164,6 +164,7 @@
   gap: 0.25rem;
 }
 
+/* Consistent styling for headers and items */
 .nav-header {
   display: flex;
   align-items: center;
@@ -174,21 +175,35 @@
   color: var(--dashboard-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  border-radius: var(--dashboard-radius);
+  transition: all 0.2s ease;
 }
 
+.nav-header:hover {
+  background: var(--dashboard-hover);
+}
+
+/* Consistent add button styling */
 .add-btn {
   background: none;
   border: none;
   color: var(--dashboard-text-light);
   cursor: pointer;
-  padding: 0.25rem;
+  padding: 0.375rem;
   border-radius: var(--dashboard-radius);
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  opacity: 0.7;
 }
 
 .add-btn:hover {
   background: var(--dashboard-hover);
   color: var(--dashboard-text);
+  opacity: 1;
 }
 
 /* Folder Styles */
@@ -198,9 +213,65 @@
   gap: 0.25rem;
 }
 
+/* Consistent folder item styling */
 .folder-item-container {
   display: flex;
   flex-direction: column;
+  margin-bottom: 0.25rem;
+}
+
+.folder-item-header {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-radius: var(--dashboard-radius);
+  transition: all 0.2s ease;
+}
+
+.folder-item-header:hover {
+  background: var(--dashboard-hover);
+}
+
+.folder-item-header .folder-item {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--dashboard-radius);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: inherit;
+  font-size: inherit;
+  text-align: left;
+  color: inherit;
+}
+
+.folder-item-header .folder-item:hover {
+  background: transparent;
+}
+
+.folder-item-header .folder-item.active {
+  background: var(--dashboard-active);
+  color: var(--dashboard-text);
+}
+
+/* Show add button only on hover */
+.folder-item-header .add-btn {
+  position: absolute;
+  right: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.folder-item-header:hover .add-btn {
+  opacity: 0.7;
+}
+
+.folder-item-header .add-btn:hover {
+  opacity: 1;
 }
 
 .loading {
@@ -294,7 +365,7 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 1rem;
-  width: 20px;
+  min-width: 20px;
   height: 20px;
 }
 
@@ -307,6 +378,26 @@
 
 .folder-chevron.open {
   transform: rotate(90deg);
+}
+
+.folder-title {
+  flex: 1;
+  font-weight: 500;
+}
+
+.folder-content {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.2s ease;
+}
+
+.folder-content.open {
+  max-height: 500px;
+}
+
+.folder-items {
+  padding-left: 2rem;
+  margin-top: 0.25rem;
 }
 
 .folder-emoji {
