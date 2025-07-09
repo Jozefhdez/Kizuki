@@ -1,15 +1,17 @@
 export interface Page {
   id: string;
   title: string;
-  icon: string;
-  content?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  slug: string;
+  filePath: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface Folder {
   id: string;
   title: string;
+  path: string; 
+  parentPath: string;
   pages: Page[];
   isOpen?: boolean;
   createdAt?: Date;
@@ -18,9 +20,8 @@ export interface Folder {
 
 export interface User {
   id: string;
-  name: string;
   email: string;
-  avatar?: string;
+  created_at: string;
 }
 
 export interface DashboardState {

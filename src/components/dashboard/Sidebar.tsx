@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../services/supabaseClient";
 import FolderItem from "./FolderItem";
+import { useEffect, useState } from "react";
+import type { User, Folder } from "../../types/dashboard";
+import { FileService } from "../../services/fileService";
 
 interface SidebarProps {
   onPageSelect?: (pageId: string) => void;
@@ -9,33 +12,153 @@ interface SidebarProps {
 
 function Sidebar({ onPageSelect, currentPageId }: SidebarProps) {
   const navigate = useNavigate();
-  
+  const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [folders, setFolders] = useState<Folder[]>([]);
+  const [creatingFolder, setCreatingFolder] = useState(false);
+
+  useEffect(() => {
+    const initializeDashboard = async () => {
+      try {
+        // Obtener información del usuario
+        const {
+          data: { user: authUser },
+          error: authError,
+        } = await supabase.auth.getUser();
+
+        if (authError || !authUser) {
+          navigate("/");
+          return;
+        }
+
+        setUser({
+          id: authUser.id,
+          email: authUser.email || "",
+          created_at: authUser.created_at || "",
+        });
+
+        // Load user folders
+        await loadFolders(authUser.id);
+      } catch (err) {
+        console.error("Error initializing dashboard:", err);
+        setError("Error al cargar el dashboard");
+      }
+    };
+
+    initializeDashboard();
+  }, [navigate]);
+
+  const loadFolders = async (userId: string) => {
+    try {
+      const userFolders = await FileService.getFoldersByUser(userId);
+      setFolders(userFolders);
+    } catch (fallbackErr) {
+      console.error("Fallback error:", fallbackErr);
+      setError("Error loading folders");
+    }
+  };
+
+  const handleCreateFolder = async (
+    userId: string,
+    name: string,
+    parentPath = ""
+  ) => {
+    try {
+      await FileService.createFolder(userId, name, parentPath);
+      await loadFolders(userId);
+    } catch (err) {
+      console.error("Error creating folder:", err);
+      setError("Error creating folder");
+    }
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!user) return;
+
+    const formData = new FormData(e.currentTarget);
+    const folderName = formData.get("folderName") as string;
+
+    if (!folderName?.trim()) return;
+
+    try {
+      await handleCreateFolder(user.id, folderName.trim());
+      setCreatingFolder(false);
+    } catch (err) {
+      console.error("Error creating folder:", err);
+      setError("Error creating folder");
+    }
+  };
+
+  if (error) {
+    return (
+      <div className="dashboard-container">
+        <div className="loading">
+          <div className="error-message">
+            <p>{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="btn btn-primary"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (creatingFolder) {
+    return (
+      <div className="dashboard-container">
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h3>New folder</h3>
+              <button
+                className="close-btn"
+                onClick={() => setCreatingFolder(false)}
+              >
+                ✕
+              </button>
+            </div>
+
+            <form className="create-folder-form" onSubmit={handleFormSubmit}>
+              <div className="form-group">
+                <label htmlFor="folderName">Folder name</label>
+                <input
+                  type="text"
+                  id="folderName"
+                  name="folderName"
+                  placeholder="Ingresa el nombre del folder"
+                  required
+                  autoFocus
+                />
+              </div>
+
+              <div className="form-actions">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setCreatingFolder(false)}
+                >
+                  Cancel
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  Create folder
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
     navigate("/");
   };
-
-  // Datos de ejemplo - esto vendría de un estado global o API
-  const folders = [
-    {
-      id: "folder-1",
-      title: "Personal",
-      pages: [
-        { id: "page-1", title: "Daily Notes", icon: "📄" },
-        { id: "page-2", title: "Ideas", icon: "💡" },
-        { id: "page-3", title: "Goals", icon: "🎯" }
-      ]
-    },
-    {
-      id: "folder-2",
-      title: "Work",
-      pages: [
-        { id: "page-4", title: "Meeting Notes", icon: "📝" },
-        { id: "page-5", title: "Project Plans", icon: "📋" },
-        { id: "page-6", title: "Task List", icon: "✅" }
-      ]
-    }
-  ];
 
   return (
     <div className="sidebar">
@@ -44,9 +167,14 @@ function Sidebar({ onPageSelect, currentPageId }: SidebarProps) {
           <img src="/src/assets/kizuki.svg" alt="Kizuki" className="logo" />
           <span className="logo-text">Kizuki</span>
         </div>
-        <button className="sidebar-toggle">
+        <button className="logout-btn" onClick={handleLogout}>
           <svg width="16" height="16" viewBox="0 0 16 16">
-            <path d="M3 8h10M3 4h10M3 12h10" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+            <path
+              d="M10 3V1.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V13m0-10l4 4-4 4m4-4H6"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              fill="none"
+            />
           </svg>
         </button>
       </div>
@@ -55,27 +183,25 @@ function Sidebar({ onPageSelect, currentPageId }: SidebarProps) {
         <div className="profile-section">
           <div className="profile-info">
             <div className="profile-avatar">
-              <span>U</span>
+              <span>{user?.email[0]}</span>
             </div>
             <div className="profile-details">
-              <div className="profile-name">Usuario</div>
-              <div className="profile-email">user@example.com</div>
+              <div className="profile-email">{user?.email}</div>
             </div>
           </div>
-          <button className="logout-btn" onClick={handleLogout}>
-            <svg width="16" height="16" viewBox="0 0 16 16">
-              <path d="M10 3V1.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v13a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5V13m0-10l4 4-4 4m4-4H6" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-            </svg>
-          </button>
         </div>
 
         <nav className="sidebar-nav">
           <div className="nav-section">
             <div className="nav-header">
               <span>Folders</span>
-              <button className="add-btn">
+              <button className="add-btn" onClick={() => setCreatingFolder(true)}>
                 <svg width="12" height="12" viewBox="0 0 12 12">
-                  <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.5"/>
+                  <path
+                    d="M6 1v10M1 6h10"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  />
                 </svg>
               </button>
             </div>
@@ -97,13 +223,23 @@ function Sidebar({ onPageSelect, currentPageId }: SidebarProps) {
         <div className="sidebar-footer">
           <button className="settings-btn">
             <svg width="16" height="16" viewBox="0 0 16 16">
-              <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+              <path
+                d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                fill="none"
+              />
             </svg>
             <span>Settings</span>
           </button>
           <button className="trash-btn">
             <svg width="16" height="16" viewBox="0 0 16 16">
-              <path d="M3 4h10l-1 9H4L3 4zM5 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1M7 7v4M9 7v4" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+              <path
+                d="M3 4h10l-1 9H4L3 4zM5 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1M7 7v4M9 7v4"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                fill="none"
+              />
             </svg>
             <span>Trash</span>
           </button>

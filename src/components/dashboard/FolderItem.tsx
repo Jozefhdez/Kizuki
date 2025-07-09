@@ -44,7 +44,6 @@ function FolderItem({ title, pages, onPageClick, currentPageId }: FolderItemProp
               key={page.id}
               id={page.id}
               title={page.title}
-              icon={page.icon}
               onClick={() => onPageClick?.(page.id)}
               isActive={currentPageId === page.id}
             />
