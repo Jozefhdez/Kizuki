@@ -14,7 +14,7 @@ function Landing() {
         {/* Header */}
         <header className="landing-header">
           <div className="logo-container">
-            <img src="/src/assets/kizuki.svg" alt="Kizuki" className="logo" />
+            <img src="/kizuki.svg" alt="Kizuki" className="logo" />
             <span className="logo-text">Kizuki</span>
           </div>
           <nav className="nav">
@@ -91,7 +91,7 @@ function Landing() {
         <footer className="footer">
           <div className="footer-content">
             <div className="footer-logo">
-              <img src="/src/assets/kizuki.svg" alt="Kizuki" className="logo" />
+              <img src="/kizuki.svg" alt="Kizuki" className="logo" />
               <span className="logo-text">Kizuki</span>
             </div>
           </div>

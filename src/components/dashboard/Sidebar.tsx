@@ -172,7 +172,7 @@ function Sidebar({ onPageSelect, currentPageId }: SidebarProps) {
     <div className="sidebar">
       <div className="sidebar-header">
         <div className="logo-container">
-          <img src="/src/assets/kizuki.svg" alt="Kizuki" className="logo" />
+          <img src="/kizuki.svg" alt="Kizuki" className="logo" />
           <span className="logo-text">Kizuki</span>
         </div>
         <button className="logout-btn" onClick={handleLogout}>
