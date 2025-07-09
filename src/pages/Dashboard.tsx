@@ -1,20 +1,21 @@
-import { useNavigate } from "react-router-dom";
-import { supabase } from "../services/supabaseClient";
+import { useState } from "react";
+import Sidebar from "../components/dashboard/Sidebar";
+import MainContent from "../components/dashboard/MainContent";
+import "../styles/Dashboard.css";
 
 function Dashboard() {
-  const navigate = useNavigate();
-  
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate("/");
+  const [currentPageId, setCurrentPageId] = useState<string | undefined>(undefined);
+
+  const handlePageSelect = (pageId: string) => {
+    setCurrentPageId(pageId);
   };
 
   return (
     <div className="dashboard-container">
-    <div>Dashboard</div>
-        <button onClick={handleLogout}> Sign Out </button>
+      <Sidebar onPageSelect={handlePageSelect} currentPageId={currentPageId} />
+      <MainContent currentPageId={currentPageId} />
     </div>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;
