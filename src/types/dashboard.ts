@@ -2,7 +2,9 @@ export interface Page {
   id: string;
   title: string;
   slug: string;
+  content: string;
   filePath: string;
+  folderId: string;
   createdAt: Date;
   updatedAt: Date;
 }

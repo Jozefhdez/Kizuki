@@ -292,7 +292,15 @@
   margin-right: var(--space-2);
 }
 
+/* Animación para el spinner */
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
 @keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
   to {
     transform: rotate(360deg);
   }
@@ -616,8 +624,29 @@
 
 /* Editor */
 .editor-container {
-  max-width: 800px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+@media (min-width: 1200px) {
+  .editor-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .editor-container {
+    padding: 0 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .editor-container {
+    padding: 0;
+  }
 }
 
 .editor-content {
@@ -890,4 +919,149 @@
   .btn {
     width: 100%;
   }
+}
+
+/* Action button disabled state */
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Save indicator dot - Simple and elegant */
+.save-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  margin-right: 1rem;
+}
+
+.save-indicator-dot[data-status="saved"] {
+  background-color: #10b981; /* Verde - guardado */
+}
+
+.save-indicator-dot[data-status="unsaved"] {
+  background-color: #f59e0b; /* Ámbar - cambios sin guardar */
+}
+
+.save-indicator-dot[data-status="saving"] {
+  background-color: var(--dashboard-text-light);
+  animation: pulse-dot 1.5s infinite;
+}
+
+.save-indicator-dot[data-status="none"] {
+  background-color: transparent; /* Invisible cuando no hay página */
+}
+
+/* Save status container */
+.save-status {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+/* Save button - Corregido */
+.save-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border: none;
+  border-radius: var(--dashboard-radius);
+  background: transparent;
+  color: var(--dashboard-text-light);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 36px;
+  height: 36px;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: var(--dashboard-hover);
+  color: var(--dashboard-text);
+}
+
+.save-btn.has-changes {
+  background: #f59e0b !important;
+  color: white !important;
+  cursor: pointer !important;
+}
+
+.save-btn.has-changes:hover {
+  background: #f59e0b !important;
+}
+
+.save-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Animation for saving state */
+@keyframes pulse-dot {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+}
+
+/* Estilos adicionales para el contenido del PDF */
+#pdf-content h1, #pdf-content h2, #pdf-content h3 {
+  margin-top: 30px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+#pdf-content h1 {
+  font-size: 28px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 10px;
+}
+
+#pdf-content h2 {
+  font-size: 24px;
+}
+
+#pdf-content h3 {
+  font-size: 20px;
+}
+
+#pdf-content p {
+  margin-bottom: 15px;
+  line-height: 1.6;
+}
+
+#pdf-content ul, #pdf-content ol {
+  margin-bottom: 15px;
+  padding-left: 30px;
+}
+
+#pdf-content li {
+  margin-bottom: 5px;
+}
+
+#pdf-content code {
+  background-color: #f5f5f5;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+}
+
+#pdf-content pre {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 5px;
+  overflow-x: auto;
+  margin-bottom: 15px;
+}
+
+#pdf-content blockquote {
+  border-left: 4px solid #ddd;
+  padding-left: 15px;
+  margin-left: 0;
+  font-style: italic;
+  color: #666;
 }

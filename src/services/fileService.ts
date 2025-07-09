@@ -1,5 +1,5 @@
 import { supabase } from "./supabaseClient";
-import type { Folder } from "../types/dashboard";
+import type { Folder, Page } from "../types/dashboard";
 
 export class FileService {
   static async getFoldersByUser(userId: string): Promise<Folder[]> {
@@ -44,6 +44,7 @@ export class FileService {
         title: page.title,
         slug: page.slug,
         filePath: page.file_path,
+        folderId: folder.id,
         createdAt: new Date(page.created_at),
         updatedAt: new Date(page.updated_at),
       })),
@@ -112,7 +113,7 @@ export class FileService {
         {
           user_id: userId,
           title: title,
-          slug: slug || title.toLowerCase().replace(/\s+/g, '-'),
+          slug: slug || title.toLowerCase().replace(/\s+/g, "-"),
           folder_id: folderId,
         },
       ])
@@ -129,22 +130,25 @@ export class FileService {
       title: data.title,
       slug: data.slug,
       filePath: data.file_path,
+      folderId: data.folder_id,
       createdAt: new Date(data.created_at),
       updatedAt: new Date(data.updated_at),
     };
   }
 
-    static async getPageByUserAndFolder(userId: string, folderId?: string): Promise<any[]> {
-    let query = supabase
-      .from("pages")
-      .select("*")
-      .eq("user_id", userId);
+  static async getPageByUserAndFolder(
+    userId: string,
+    folderId?: string
+  ): Promise<any[]> {
+    let query = supabase.from("pages").select("*").eq("user_id", userId);
 
     if (folderId) {
       query = query.eq("folder_id", folderId);
     }
 
-    const { data, error } = await query.order("created_at", { ascending: true });
+    const { data, error } = await query.order("created_at", {
+      ascending: true,
+    });
 
     if (error) {
       console.error("Error fetching pages:", error);
@@ -156,8 +160,64 @@ export class FileService {
       title: page.title,
       slug: page.slug,
       filePath: page.file_path,
+      folderId: page.folder_id,
       createdAt: new Date(page.created_at),
       updatedAt: new Date(page.updated_at),
     }));
+  }
+
+  static async updatePageContent(
+    pageId: string,
+    content: string
+  ): Promise<void> {
+    const { error } = await supabase
+      .from("pages")
+      .update({
+        content: content,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", pageId);
+
+    if (error) {
+      throw new Error("Error updating page content");
+    }
+  }
+
+  static async getPageById(pageId: string): Promise<Page> {
+    const { data, error } = await supabase
+      .from("pages")
+      .select("*")
+      .eq("id", pageId)
+      .single();
+
+    if (error) {
+      throw new Error("Error fetching page");
+    }
+
+    return {
+      id: data.id,
+      title: data.title,
+      slug: data.slug,
+      content: data.content || "",
+      filePath: data.file_path,
+      folderId: data.folder_id,
+      createdAt: new Date(data.created_at),
+      updatedAt: new Date(data.updated_at),
+    };
+  }
+
+  static async getFolderById(folderId: string): Promise<string> {
+    const { data, error } = await supabase
+      .from("folders")
+      .select("name")
+      .eq("id", folderId)
+      .single();
+
+    if (error) {
+      console.error("Error fetching folder:", error);
+      return "Unknown Folder";
+    }
+
+    return data.name;
   }
 }
