@@ -7,6 +7,7 @@ import PDFRenderer from "./PDFRender";
 interface MainContentProps {
   currentPageId?: string;
   onContentChange?: (content: string) => void;
+  sidebarCollapsed?: boolean;
 }
 
 function MainContent({ currentPageId }: MainContentProps) {
@@ -172,7 +173,7 @@ function MainContent({ currentPageId }: MainContentProps) {
     if (!currentPageId) {
       return {
         title: "Getting Started",
-        icon: "📄",
+        icon: "",
         content: "Welcome to Kizuki",
       };
     }
@@ -180,14 +181,14 @@ function MainContent({ currentPageId }: MainContentProps) {
     if (currentPage) {
       return {
         title: currentPage.title,
-        icon: "📄",
+        icon: "",
         content: currentPage.content,
       };
     }
 
     return { 
       title: "Loading...", 
-      icon: "⏳", 
+      icon: "󱦟", 
       content: "" 
     };
   };

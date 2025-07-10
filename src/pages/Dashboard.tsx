@@ -5,15 +5,25 @@ import "../styles/Dashboard.css";
 
 function Dashboard() {
   const [currentPageId, setCurrentPageId] = useState<string | undefined>(undefined);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const handlePageSelect = (pageId: string) => {
     setCurrentPageId(pageId);
   };
 
+  const toggleSidebar = () => {
+    setSidebarCollapsed(!sidebarCollapsed);
+  };
+
   return (
     <div className="dashboard-container">
-      <Sidebar onPageSelect={handlePageSelect} currentPageId={currentPageId} />
-      <MainContent currentPageId={currentPageId} />
+      <Sidebar 
+        onPageSelect={handlePageSelect} 
+        currentPageId={currentPageId}
+        collapsed={sidebarCollapsed}
+        onToggle={toggleSidebar}
+      />
+      <MainContent currentPageId={currentPageId} sidebarCollapsed={sidebarCollapsed} />
     </div>
   );
 }

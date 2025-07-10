@@ -39,7 +39,7 @@ function FolderItem({
     if (!user?.id) return; 
 
     try {
-      const userPages = await FileService.getPageByUserAndFolder(userId);
+      const userPages = await FileService.getPageByUserAndFolder(userId, id);
       setLocalPages(userPages);
       onPagesUpdate?.(id, userPages);
     } catch (fallbackErr) {

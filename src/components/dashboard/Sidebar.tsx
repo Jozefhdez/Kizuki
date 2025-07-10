@@ -8,9 +8,11 @@ import { FileService } from "../../services/fileService";
 interface SidebarProps {
   onPageSelect?: (pageId: string) => void;
   currentPageId?: string;
+  collapsed: boolean;
+  onToggle: () => void;
 }
 
-function Sidebar({ onPageSelect, currentPageId }: SidebarProps) {
+function Sidebar({ onPageSelect, currentPageId, collapsed, onToggle }: SidebarProps) {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -169,77 +171,109 @@ function Sidebar({ onPageSelect, currentPageId }: SidebarProps) {
   };
 
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
       <div className="sidebar-header">
         <div className="logo-container">
           <img src="/kizuki.svg" alt="Kizuki" className="logo" />
-          <span className="logo-text">Kizuki</span>
+          {!collapsed && <span className="logo-text">Kizuki</span>}
         </div>
-        <button className="logout-btn" onClick={handleLogout}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            width="18.5" 
-            height="18.5"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
-            />
+        <button className="sidebar-toggle" onClick={onToggle} title={collapsed ? "Expand sidebar" : "Collapse sidebar"}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            {collapsed ? (
+              <path d="M9 18L15 12L9 6" />
+            ) : (
+              <path d="M15 18L9 12L15 6" />
+            )}
           </svg>
         </button>
       </div>
 
-      <div className="sidebar-content">
-        <div className="profile-section">
-          <div className="profile-info">
-            <div className="profile-avatar">
-              <span>{user?.email[0]}</span>
-            </div>
-            <div className="profile-details">
-              <div className="profile-email">{user?.email}</div>
+      {!collapsed && (
+        <div className="sidebar-content">
+          <div className="profile-section">
+            <div className="profile-info">
+              <div className="profile-avatar">
+                <span>{user?.email[0]}</span>
+              </div>
+              <div className="profile-details">
+                <div className="profile-email">{user?.email}</div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <nav className="sidebar-nav">
-          <div className="nav-section">
-            <div className="nav-header">
-              <span>Folders</span>
-              <button
-                className="add-btn"
-                onClick={() => setCreatingFolder(true)}
-              >
-                <svg width="12" height="12" viewBox="0 0 12 12">
-                  <path
-                    d="M6 1v10M1 6h10"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
+          <nav className="sidebar-nav">
+            <div className="nav-section">
+              <div className="nav-header">
+                <span>Folders</span>
+                <button
+                  className="add-btn"
+                  onClick={() => setCreatingFolder(true)}
+                >
+                  <svg width="12" height="12" viewBox="0 0 12 12">
+                    <path
+                      d="M6 1v10M1 6h10"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div className="folder-list">
+                {folders.map((folder) => (
+                  <FolderItem
+                    key={folder.id}
+                    id={folder.id}
+                    title={folder.title}
+                    pages={folder.pages}
+                    onPageClick={onPageSelect}
+                    currentPageId={currentPageId}
+                    user={user}
+                    onPagesUpdate={handlePagesUpdate}
                   />
-                </svg>
-              </button>
+                ))}
+              </div>
             </div>
-            <div className="folder-list">
-              {folders.map((folder) => (
-                <FolderItem
-                  key={folder.id}
-                  id={folder.id}
-                  title={folder.title}
-                  pages={folder.pages}
-                  onPageClick={onPageSelect}
-                  currentPageId={currentPageId}
-                  user={user}
-                  onPagesUpdate={handlePagesUpdate}
-                />
-              ))}
-            </div>
+          </nav>
+        </div>
+      )}
+
+      {collapsed && (
+        <div className="sidebar-collapsed-content">
+          <div className="collapsed-avatar">
+            <span>{user?.email[0]}</span>
           </div>
-        </nav>
-      </div>
+          <button
+            className="collapsed-add-btn"
+            onClick={() => setCreatingFolder(true)}
+            title="Add folder"
+          >
+            <svg width="16" height="16" viewBox="0 0 12 12">
+              <path
+                d="M6 1v10M1 6h10"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              />
+            </svg>
+          </button>
+          <button className="collapsed-logout-btn" onClick={handleLogout} title="Logout">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              width="16" 
+              height="16"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"
+              />
+            </svg>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

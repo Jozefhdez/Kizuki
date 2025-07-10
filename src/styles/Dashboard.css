@@ -37,6 +37,11 @@
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  transition: width 0.3s ease;
+}
+
+.sidebar.collapsed {
+  width: 60px;
 }
 
 .sidebar-header {
@@ -44,7 +49,13 @@
   align-items: center;
   justify-content: space-between;
   padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--dashboard-border);
+}
+
+.sidebar.collapsed .sidebar-header {
+  padding: 1rem 0.75rem;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .logo-container {
@@ -62,6 +73,13 @@
   font-size: 1rem;
   font-weight: 600;
   color: var(--dashboard-text);
+  transition: opacity 0.2s ease;
+}
+
+.sidebar.collapsed .logo-text {
+  opacity: 0;
+  width: 0;
+  overflow: hidden;
 }
 
 .sidebar-toggle {
@@ -72,6 +90,9 @@
   padding: 0.5rem;
   border-radius: var(--dashboard-radius);
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sidebar-toggle:hover {
@@ -79,12 +100,74 @@
   color: var(--dashboard-text);
 }
 
+.sidebar.collapsed .sidebar-toggle {
+  background: var(--dashboard-hover);
+  border: 1px solid var(--dashboard-border);
+  border-radius: var(--dashboard-radius);
+  width: 32px;
+  height: 32px;
+}
+
+/* Sidebar content */
 .sidebar-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   padding: 1rem;
   overflow-y: auto;
+}
+
+/* Contenido del sidebar colapsado */
+.sidebar-collapsed-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0.75rem;
+  flex: 1;
+}
+
+.collapsed-avatar {
+  width: 32px;
+  height: 32px;
+  background: var(--dashboard-blue);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.collapsed-avatar:hover {
+  transform: scale(1.1);
+}
+
+.collapsed-add-btn, .collapsed-logout-btn {
+  background: none;
+  border: none;
+  color: var(--dashboard-text-light);
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: var(--dashboard-radius);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.collapsed-add-btn:hover, .collapsed-logout-btn:hover {
+  background: var(--dashboard-hover);
+  color: var(--dashboard-text);
+}
+
+.collapsed-logout-btn {
+  margin-top: auto;
 }
 
 /* Profile Section */
@@ -396,11 +479,33 @@
 .folder-content {
   overflow: hidden;
   max-height: 0;
-  transition: max-height 0.2s ease;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
 }
 
 .folder-content.open {
-  max-height: 500px;
+  max-height: 400px; /* Altura máxima razonable */
+  opacity: 1;
+  margin-top: 0.25rem;
+  overflow-y: auto; /* Permitir scroll vertical si es necesario */
+}
+
+/* Estilos para scroll en folder content */
+.folder-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.folder-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.folder-content::-webkit-scrollbar-thumb {
+  background: var(--dashboard-border);
+  border-radius: 2px;
+}
+
+.folder-content::-webkit-scrollbar-thumb:hover {
+  background: var(--dashboard-border-hover);
 }
 
 .folder-items {
@@ -420,19 +525,6 @@
   overflow: hidden;
   white-space: nowrap;
   font-weight: 500;
-}
-
-.folder-content {
-  overflow: hidden;
-  transition: all 0.3s ease;
-  max-height: 0;
-  opacity: 0;
-}
-
-.folder-content.open {
-  max-height: 200px;
-  opacity: 1;
-  margin-top: 0.25rem;
 }
 
 .folder-items {
