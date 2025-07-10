@@ -8,9 +8,10 @@ interface MainContentProps {
   currentPageId?: string;
   onContentChange?: (content: string) => void;
   sidebarCollapsed?: boolean;
+  onToggleSidebar?: () => void;
 }
 
-function MainContent({ currentPageId }: MainContentProps) {
+function MainContent({ currentPageId, onToggleSidebar }: MainContentProps) {
   const [value, setValue] = React.useState("");
   const [isSaving, setIsSaving] = React.useState(false);
   const [currentPage, setCurrentPage] = React.useState<any>(null);
@@ -18,7 +19,26 @@ function MainContent({ currentPageId }: MainContentProps) {
   const [initialContent, setInitialContent] = React.useState("");
   const [folderName, setFolderName] = React.useState("");
   const [isGeneratingPDF, setIsGeneratingPDF] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
   const pdfRef = React.useRef<HTMLDivElement>(null);
+
+  // Check if device is mobile
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const handleMobileMenuToggle = () => {
+    if (isMobile && onToggleSidebar) {
+      onToggleSidebar();
+    }
+  };
 
   const handleSharePDF = () => {
     if (!currentPage || !value || !pdfRef.current) {
@@ -188,16 +208,49 @@ function MainContent({ currentPageId }: MainContentProps) {
 
     return { 
       title: "Loading...", 
-      icon: "󱦟", 
+      icon: (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+        </svg>
+      ), 
       content: "" 
     };
   };
 
   const pageContent = getPageContent();
 
+  // Handle clicks outside sidebar on mobile
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (isMobile && onToggleSidebar && event.target instanceof Element) {
+        const sidebar = document.querySelector('.sidebar');
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        
+        if (sidebar && !sidebar.contains(event.target) && 
+            mobileMenuToggle && !mobileMenuToggle.contains(event.target)) {
+          // Close sidebar if clicked outside
+          const sidebarElement = document.querySelector('.sidebar.mobile-open');
+          if (sidebarElement) {
+            onToggleSidebar();
+          }
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMobile, onToggleSidebar]);
+
   return (
     <div className="main-content">
       <div className="content-header">
+        {isMobile && (
+          <button className="mobile-menu-toggle" onClick={handleMobileMenuToggle}>
+            <svg width="16" height="16" viewBox="0 0 16 16">
+              <path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" strokeWidth="2" fill="none"/>
+            </svg>
+          </button>
+        )}
         <div className="breadcrumb">
           <span className="breadcrumb-item">{folderName || "Kizuki"}</span>
           <span className="breadcrumb-separator">/</span>
@@ -272,32 +325,64 @@ function MainContent({ currentPageId }: MainContentProps) {
               {!currentPageId ? (
                 <div className="welcome-content">
                   <div className="welcome-hero">
-                    <div className="welcome-icon">🚀</div>
+                    <div className="welcome-icon">
+                      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                        <line x1="3" y1="6" x2="21" y2="6"/>
+                        <path d="M16 10a4 4 0 0 1-8 0"/>
+                      </svg>
+                    </div>
                     <h2>Welcome to Kizuki!</h2>
                     <p>Your personal space to create, organize and share your ideas.</p>
                   </div>
                   
                   <div className="welcome-features">
                     <div className="feature-card">
-                      <div className="feature-icon">📁</div>
+                      <div className="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                        </svg>
+                      </div>
                       <h3>Organize by folders</h3>
                       <p>Create folders to organize your pages and keep everything tidy.</p>
                     </div>
                     
                     <div className="feature-card">
-                      <div className="feature-icon">✍️</div>
+                      <div className="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                          <polyline points="14,2 14,8 20,8"/>
+                          <line x1="16" y1="13" x2="8" y2="13"/>
+                          <line x1="16" y1="17" x2="8" y2="17"/>
+                          <polyline points="10,9 9,9 8,9"/>
+                        </svg>
+                      </div>
                       <h3>Markdown Editor</h3>
                       <p>Write with Markdown syntax and see a real-time preview.</p>
                     </div>
                     
                     <div className="feature-card">
-                      <div className="feature-icon">📄</div>
+                      <div className="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                          <polyline points="14,2 14,8 20,8"/>
+                          <line x1="16" y1="13" x2="8" y2="13"/>
+                          <line x1="16" y1="17" x2="8" y2="17"/>
+                          <line x1="12" y1="9" x2="8" y2="9"/>
+                        </svg>
+                      </div>
                       <h3>Export to PDF</h3>
                       <p>Convert your pages to PDF with a single click to share or print.</p>
                     </div>
                     
                     <div className="feature-card">
-                      <div className="feature-icon">💾</div>
+                      <div className="feature-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                          <polyline points="17,21 17,13 7,13 7,21"/>
+                          <polyline points="7,3 7,8 15,8"/>
+                        </svg>
+                      </div>
                       <h3>Auto-save</h3>
                       <p>Your changes are automatically saved every 30 seconds.</p>
                     </div>

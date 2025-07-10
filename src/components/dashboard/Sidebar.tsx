@@ -10,9 +10,10 @@ interface SidebarProps {
   currentPageId?: string;
   collapsed: boolean;
   onToggle: () => void;
+  className?: string;
 }
 
-function Sidebar({ onPageSelect, currentPageId, collapsed, onToggle }: SidebarProps) {
+function Sidebar({ onPageSelect, currentPageId, collapsed, onToggle, className }: SidebarProps) {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -171,21 +172,31 @@ function Sidebar({ onPageSelect, currentPageId, collapsed, onToggle }: SidebarPr
   };
 
   return (
-    <div className={`sidebar ${collapsed ? 'collapsed' : ''}`}>
+    <div className={`sidebar ${collapsed ? 'collapsed' : ''} ${className || ''}`}>
       <div className="sidebar-header">
         <div className="logo-container">
           <img src="/kizuki.svg" alt="Kizuki" className="logo" />
           {!collapsed && <span className="logo-text">Kizuki</span>}
         </div>
-        <button className="sidebar-toggle" onClick={onToggle} title={collapsed ? "Expand sidebar" : "Collapse sidebar"}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            {collapsed ? (
-              <path d="M9 18L15 12L9 6" />
-            ) : (
-              <path d="M15 18L9 12L15 6" />
-            )}
-          </svg>
-        </button>
+        <div className="header-actions">
+          {!collapsed && (
+            <button className="logout-btn" onClick={handleLogout} title="Cerrar sesión">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15"></path>
+
+              </svg>
+            </button>
+          )}
+          <button className="sidebar-toggle" onClick={onToggle} title={collapsed ? "Expand sidebar" : "Collapse sidebar"}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {collapsed ? (
+                <path d="M9 18L15 12L9 6" />
+              ) : (
+                <path d="M15 18L9 12L15 6" />
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
       {!collapsed && (
