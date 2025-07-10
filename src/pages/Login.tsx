@@ -11,20 +11,54 @@ function Login() {
   const [info, setInfo] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
+  // Regex patterns for validation
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
+
+  const validateEmail = (email: string): boolean => {
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password: string): boolean => {
+    return passwordRegex.test(password);
+  };
+
   const handleEmailChange = (value: string) => {
     setEmail(value);
     setError(null);
+    
+    if (value && !validateEmail(value)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
   };
 
   const handlePasswordChange = (value: string) => {
     setPassword(value);
     setError(null);
+    
+    if (value && !validatePassword(value)) {
+      setError("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.");
+      return;
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setInfo(null);
+
+    // Validate inputs before submission
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!validatePassword(password)) {
+      setError("Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.");
+      return;
+    }
+
     setLoading(true);
 
     try {
