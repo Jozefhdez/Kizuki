@@ -176,7 +176,7 @@ function FolderItem({
             e.stopPropagation();
             setCreatingPage(true);
           }}
-          title="Añadir página"
+          title="Add page"
         >
           <svg width="12" height="12" viewBox="0 0 12 12">
             <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.5" fill="none"/>
