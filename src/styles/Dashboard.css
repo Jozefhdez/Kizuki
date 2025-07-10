@@ -1471,12 +1471,13 @@
 }
 
 .custom-md-editor .w-md-editor-preview {
-  background: var(--dashboard-bg-secondary);
+  background: #ffffff;
   padding: 2rem;
   font-family: system-ui, -apple-system, sans-serif;
   font-size: 1rem;
   line-height: 1.6;
   color: var(--dashboard-text);
+  border-right: 1px solid var(--dashboard-border) !important;
 }
 
 .custom-md-editor .w-md-editor-preview h1,
